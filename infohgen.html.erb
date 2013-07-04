@@ -1,8 +1,6 @@
-#!/usr/bin/env ruby
+<%
 
 # system_page - A script to produce a system information HTML file
-
-require 'erb'
 
 ##### Constants
 
@@ -10,64 +8,43 @@ TITLE=`echo $HOSTNAME`
 RIGHT_NOW=`date +"%x %r %Z"`
 TIME_STAMP="Updated on #{RIGHT_NOW} by "
 
-##### Functions
+%>
 
-def erb str
-  ERB.new(str).result
-end
+<html>
+  <head>
+    <title><%= TITLE %></title>
+  </head>
 
-def system_info
-  <<-EOF
+  <body style=font-family:Helvetica;background-color:black;color:white>
+
+    <h1 style=text-align:center;width:100%><%= TITLE %></h1>
+    <p style=text-align:center;width:100%><%= TIME_STAMP %><b style=color:yellow><%= `echo $USER` %></b></p>
+
+    <!-- system info -->
     <h2>Release Info</h2>
     <p>Function not yet implemented</p>
-  EOF
-end
 
-def show_uptime
-  erb <<-EOF
+    <!-- uptime -->
     <h2>Uptime</h2>
     <pre>
     <%= `uptime` %>
     </pre>
-  EOF
-end
 
-def drive_space
-  erb <<-EOF
+    <!-- drive space -->
     <h2>Filesystem Space</h2>
     <pre>
     <%= `df` %>
     </pre>
-  EOF
-end
 
-def home_space
-  # Only the superuser can get this information
-  if `id -u`.strip == "0"
-    erb <<-EOF
+    <% if `id -u`.strip == "0" %>
+      <!-- home space -->
+      <!-- Only the superuser can get this information -->
       <h2>Home Directory Space by User</h2>
       <pre>
       Bytes Directory
       <%= `du -s /home/* | sort -nr` %>
       </pre>
-    EOF
-  end
-end
+    <% end %>
 
-##### Main
-
-puts erb <<-EOF
-  <html>
-  <head>
-    <title><%= TITLE %></title>
-  </head>
-  <body style=font-family:Helvetica;background-color:black;color:white>
-    <h1 style=text-align:center;width:100%><%= TITLE %></h1>
-    <p style=text-align:center;width:100%><%= TIME_STAMP %><b style=color:yellow><%= `echo $USER` %></b></p>
-    <%= system_info %>
-    <%= show_uptime %>
-    <%= drive_space %>
-    <%= home_space %>
   </body>
-  </html>
-EOF
+</html>
