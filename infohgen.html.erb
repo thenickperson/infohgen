@@ -1,13 +1,12 @@
 <%
+# system_page:
+# An HTML/ERB file to produce system information.
+# Run "erb infohgen.html.erb" to compile.
 
-# system_page - A script to produce a system information HTML file
-
-##### Constants
-
+# Constants
 TITLE=`echo $HOSTNAME`
 RIGHT_NOW=`date +"%x %r %Z"`
 TIME_STAMP="Updated on #{RIGHT_NOW} by "
-
 %>
 
 <html>
