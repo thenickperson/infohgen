@@ -17,7 +17,7 @@ def erb str
 end
 
 def system_info
-  erb <<-EOF
+  <<-EOF
     <h2>Release Info</h2>
     <p>Function not yet implemented</p>
   EOF
